@@ -1,9 +1,12 @@
 /* Data Quality Rule Checks - Summary Level
-   Produces a simple output that can feed SSRS/Power BI:
-   RuleName | FailedCount | Status
+   Output: RuleName | FailedCount | Status
 */
 
-WITH dq AS (
+SELECT
+    d.RuleName,
+    d.FailedCount,
+    CASE WHEN d.FailedCount = 0 THEN 'PASS' ELSE 'FAIL' END AS Status
+FROM (
     SELECT
         'Missing MetricValue' AS RuleName,
         COUNT(*) AS FailedCount
@@ -33,11 +36,7 @@ WITH dq AS (
         COUNT(*) AS FailedCount
     FROM PerformanceFact
     WHERE MetricValue < 0
-)
-SELECT
-    RuleName,
-    FailedCount,
-    CASE WHEN FailedCount = 0 THEN 'PASS' ELSE 'FAIL' END AS Status
-FROM dq
-ORDER BY Status DESC, FailedCount DESC;
-
+) d
+ORDER BY
+    CASE WHEN d.FailedCount = 0 THEN 1 ELSE 0 END,  -- FAIL first
+    d.FailedCount DESC;
