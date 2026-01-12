@@ -1,22 +1,29 @@
 # KPI Measures (DAX)
 
-## Total Metric Value
+-- Total Metric Value
 Total Metric Value :=
-SUM(PerformanceFact[MetricValue])
-# KPI Measures (DAX)
+SUM ( PerformanceFact[MetricValue] )
 
-## Total Metric Value
-Total Metric Value :=
-SUM(PerformanceFact[MetricValue])
+-- Average Metric Value
+Average Metric Value :=
+AVERAGE ( PerformanceFact[MetricValue] )
 
-## Average Metric Value :=
-AVERAGE(PerformanceFact[MetricValue])
-
-## KPI Achievement % :=
-DIVIDE(
+-- KPI Achievement %
+KPI Achievement % :=
+DIVIDE (
     [Total Metric Value],
-    CALCULATE(
+    CALCULATE (
         [Total Metric Value],
-        REMOVEFILTERS(PerformanceFact)
+        REMOVEFILTERS ( PerformanceFact )
+    )
+)
+
+-- KPI Contribution %
+KPI Contribution % :=
+DIVIDE (
+    [Total Metric Value],
+    CALCULATE (
+        [Total Metric Value],
+        ALL ( PerformanceFact[BusinessUnit] )
     )
 )
