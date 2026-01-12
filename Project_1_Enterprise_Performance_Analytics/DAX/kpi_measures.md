@@ -12,7 +12,7 @@ SUM(PerformanceFact[MetricValue])
 ## Average Metric Value :=
 AVERAGE(PerformanceFact[MetricValue])
 
-##KPI Achievement % :=
+## KPI Achievement % :=
 DIVIDE(
     [Total Metric Value],
     CALCULATE(
